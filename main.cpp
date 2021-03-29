@@ -12,7 +12,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/imgproc/types_c.h>
 
-//Ìâ¼Ç£º²»ÊÇÁ·Ï°¿ÆÑĞ£¬¶øÊÇÑ§Ï°µ÷¿â
+//é¢˜è®°ï¼šä¸æ˜¯ç»ƒä¹ ç§‘ç ”ï¼Œè€Œæ˜¯å­¦ä¹ è°ƒåº“
 
 #define MAXFRAME 10000
 
@@ -33,8 +33,8 @@ vector<int> Target(MAXFRAME, -1);
 //int Diff2[MAXFRAME] = { 0 };
 //int Diff3[MAXFRAME] = { 0 };
 
-char TimeString[50];//ÓÃÓÚ´æ´¢Ê±¼ä´®
-char ImageNameString[50];//ÓÃÓÚ´æ´¢Í¼Æ¬Ãû
+char TimeString[50];//ç”¨äºå­˜å‚¨æ—¶é—´ä¸²
+char ImageNameString[50];//ç”¨äºå­˜å‚¨å›¾ç‰‡å
 char ImageNameN2[50];//-2
 char ImageNameN1[50];//-1
 char ImageName0[50];//0
@@ -62,8 +62,8 @@ int ImageNegative2 = ImageMiddle0 - 2;
 void TcharToChar(const TCHAR * tchar, char * _char)
 {
 	int iLength;
-	iLength = WideCharToMultiByte(CP_ACP, 0, tchar, -1, NULL, 0, NULL, NULL);//»ñÈ¡×Ö½Ú³¤¶È 
-	WideCharToMultiByte(CP_ACP, 0, tchar, -1, _char, iLength, NULL, NULL);//½«tcharÖµ¸³¸ø_char    
+	iLength = WideCharToMultiByte(CP_ACP, 0, tchar, -1, NULL, 0, NULL, NULL);//è·å–å­—èŠ‚é•¿åº¦ 
+	WideCharToMultiByte(CP_ACP, 0, tchar, -1, _char, iLength, NULL, NULL);//å°†tcharå€¼èµ‹ç»™_char    
 }
 
 //char2TCHAR
@@ -85,7 +85,7 @@ void NumToChar(int num, char *str)
 {
 	if (num >= 1000 && num <= 10000)
 	{
-		//ËÄÎ»Êı
+		//å››ä½æ•°
 		int a = num / 1000;
 		int b = (num - a * 1000) / 100;
 		int c = (num - a * 1000 - b * 100) / 10;
@@ -98,7 +98,7 @@ void NumToChar(int num, char *str)
 	}
 	else if (num >= 100 && num <= 10000)
 	{
-		//ÈıÎ»Êı
+		//ä¸‰ä½æ•°
 		int a = num / 100;
 		int b = (num - a * 100) / 10;
 		int c = num % 10;
@@ -109,7 +109,7 @@ void NumToChar(int num, char *str)
 	}
 	else if (num >= 10 && num <= 10000)
 	{
-		//Á½Î»Êı
+		//ä¸¤ä½æ•°
 		int a = num / 10;
 		int b = num - a * 10;
 		str[0] = a + '0';
@@ -118,7 +118,7 @@ void NumToChar(int num, char *str)
 	}
 	else if (num >= 1 && num <= 10000)
 	{
-		//Ò»Î»Êı
+		//ä¸€ä½æ•°
 		str[0] = num + '0';
 		str[1] = '\0';
 	}
@@ -126,7 +126,7 @@ void NumToChar(int num, char *str)
 	{
 		SystemTime();
 		cout << TimeString;
-		cout << " [INFO]¼û¹íÁË" << endl;
+		cout << " [INFO]è§é¬¼äº†" << endl;
 		//return 1;
 	}
 	//return 0;
@@ -143,11 +143,11 @@ void Refresh5Image(int Frame)
 
 void Draw5Image(int Frame1L, int FrameU, int FrameEdgeX, int  FrameWide, int  FrameHigh)
 {
-	int resizemode = MODE_OPENCV;//ÕâÁ½¸öÖØ²ÉÑù£¬Ò»¸öÊÇvoid Resize£¬ÁíÒ»¸öÊÇcv::resize
-	//Çå¿ÕÎÄ×ÖÇø
+	int resizemode = MODE_OPENCV;//è¿™ä¸¤ä¸ªé‡é‡‡æ ·ï¼Œä¸€ä¸ªæ˜¯void Resizeï¼Œå¦ä¸€ä¸ªæ˜¯cv::resize
+	//æ¸…ç©ºæ–‡å­—åŒº
 	setfillcolor(DARKGRAY);
 	solidrectangle(0 + 25 + 1, FrameU + FrameHigh + 2, WINDOW_W - 25 - 1, 150 + 320 - 1);
-	//Éú³ÉÃüÃûĞòÁĞ
+	//ç”Ÿæˆå‘½ååºåˆ—
 	sprintf(ImageNameN2, "%s%d%s", "Output_Image_", ImageNegative2, ".jpg"); 
 	sprintf(ImageNameN1, "%s%d%s", "Output_Image_", ImageNegative1, ".jpg"); 
 	sprintf(ImageName0, "%s%d%s", "Output_Image_", ImageMiddle0, ".jpg"); 
@@ -161,9 +161,9 @@ void Draw5Image(int Frame1L, int FrameU, int FrameEdgeX, int  FrameWide, int  Fr
 		string string_strP1(ImageNameP1);
 		string string_strP2(ImageNameP2);
 	}
-	//ÃæÏò¹ı³ÌÖğ²½´¦ÀíÃû³ÆÓë×ª»»
-	//ºóÆÚÓĞÊ±¼äµÄ»°¾Í·â×°Ò»¸öSuperStringÀà£¬Õâ¸öÀàÀïÃæ°üº¬String£¬char£¬TCHAR£¬num¶àÖÖ²»Í¬µÄÀàĞÍ£¬ÄÜÒ»ÑùµÄ¶¼ÄÚÈİÒ»Ñù
-	//È»ºóËÄ¸öflag±íÊ¾ÄÄĞ©ÊÇÓĞÒâÒåµÄ£¬Ò»¸ötype±íÊ¾ÓÃÍ¾
+	//é¢å‘è¿‡ç¨‹é€æ­¥å¤„ç†åç§°ä¸è½¬æ¢
+	//åæœŸæœ‰æ—¶é—´çš„è¯å°±å°è£…ä¸€ä¸ªSuperStringç±»ï¼Œè¿™ä¸ªç±»é‡Œé¢åŒ…å«Stringï¼Œcharï¼ŒTCHARï¼Œnumå¤šç§ä¸åŒçš„ç±»å‹ï¼Œèƒ½ä¸€æ ·çš„éƒ½å†…å®¹ä¸€æ ·
+	//ç„¶åå››ä¸ªflagè¡¨ç¤ºå“ªäº›æ˜¯æœ‰æ„ä¹‰çš„ï¼Œä¸€ä¸ªtypeè¡¨ç¤ºç”¨é€”
 	TCHAR strN2[40];
 	TCHAR strN1[40];
 	TCHAR strM0[40];
@@ -194,10 +194,10 @@ void Draw5Image(int Frame1L, int FrameU, int FrameEdgeX, int  FrameWide, int  Fr
 	CharToTchar(char_numM0, TCHAR_numM0);
 	CharToTchar(char_numP1, TCHAR_numP1);
 	CharToTchar(char_numP2, TCHAR_numP2);
-	//OpenCVÈ¡³öÇ°ÖØ²ÉÑù
+	//OpenCVå–å‡ºå‰é‡é‡‡æ ·
 	if (resizemode == MODE_OPENCV)
 	{
-		//Ã»ÓĞÊ¹ÓÃINTER_LINEARË«ÏßĞÔ²åÖµ¶øÊÇINTER_AREAÏñËØÃæ»ıÏà¹ØÖØ²ÉÑù£¬ÒòÎªÎªÁË±ÜÃâËõĞ¡Í¼ÏñµÄÊ±ºò²úÉú²¨ÎÆ
+		//æ²¡æœ‰ä½¿ç”¨INTER_LINEARåŒçº¿æ€§æ’å€¼è€Œæ˜¯INTER_AREAåƒç´ é¢ç§¯ç›¸å…³é‡é‡‡æ ·ï¼Œå› ä¸ºä¸ºäº†é¿å…ç¼©å°å›¾åƒçš„æ—¶å€™äº§ç”Ÿæ³¢çº¹
 		Mat imgN2 = imread(ImageNameN2);
 		resize(imgN2, imgN2, cv::Size(FrameWide, FrameHigh), cv::INTER_AREA);
 		imwrite(ImageNameN2, imgN2);
@@ -214,14 +214,14 @@ void Draw5Image(int Frame1L, int FrameU, int FrameEdgeX, int  FrameWide, int  Fr
 		resize(imgP2, imgP2, cv::Size(FrameWide, FrameHigh), cv::INTER_AREA);
 		imwrite(ImageNameP2, imgP2);
 	}
-	//È¡³öÍ¼Æ¬
+	//å–å‡ºå›¾ç‰‡
 	IMAGE N2, N1, M0, P1, P2;
 	loadimage(&N2, strN2);
 	loadimage(&N1, strN1);
 	loadimage(&M0, strM0);
 	loadimage(&P1, strP1);
 	loadimage(&P2, strP2);
-	//EasyxÈ¡³öºóÖØ²ÉÑù
+	//Easyxå–å‡ºåé‡é‡‡æ ·
 	if (resizemode == MODE_EASYX)
 	{
 		Resize(&N2, FrameWide, FrameHigh);
@@ -233,7 +233,7 @@ void Draw5Image(int Frame1L, int FrameU, int FrameEdgeX, int  FrameWide, int  Fr
 	int FrameX = Frame1L;
 	int FrameY = FrameU;
 	int FrameInterval = FrameEdgeX + FrameWide;
-	settextstyle(35, 0, _T("ºÚÌå"));
+	settextstyle(35, 0, _T("é»‘ä½“"));
 	putimage(FrameX+1, FrameY+1, &N2);
 	outtextxy(FrameX + 120, FrameY + FrameHigh + 20, TCHAR_numN2);
 	FrameX += FrameInterval;
@@ -264,7 +264,7 @@ void DrawVisualMoe(int FrameIterator, int Frame1L, int  FrameU, int  FrameEdgeX,
 
 int main()
 {
-	//Æô¶¯ÈÕÖ¾·şÎñ
+	//å¯åŠ¨æ—¥å¿—æœåŠ¡
 	ofstream Output_Log;
 	Output_Log.open("Output_Log.txt");
 	ofstream Output_Data;
@@ -276,7 +276,7 @@ int main()
 	Output_Log << TimeString ;
 	Output_Log << " [INFO]Start LogSystem" << endl;
 
-	// ÊÓÆµ¾ø¶ÔÂ·¾¶¶ÁÈ¡
+	// è§†é¢‘ç»å¯¹è·¯å¾„è¯»å–
 	
 	VideoCapture capture("Input_Video.mp4");
 	Mat frame[MAXFRAME];
@@ -284,13 +284,13 @@ int main()
 	int mode = -1;
 	while (1)
 	{
-		cout << "=====ÇëÊäÈëÄú½ÓÏÂÀ´ÒªÖ´ĞĞµÄ²Ù×÷=====" << endl;
-		cout << "¡¾0¡¿×Ô¶¯Ö´ĞĞ" << endl;
-		cout << "¡¾1¡¿ÔØÈëÄÚ´æ" << endl;
-		cout << "¡¾2¡¿¼ÆËã²îÒì" << endl;
-		cout << "¡¾3¡¿·ÖÎö²îÒì" << endl;
-		cout << "¡¾4¡¿¿ÉÊÓÕ¹Ê¾" << endl;
-		cout << "¡¾5¡¿ÍË³ö³ÌĞò" << endl;
+		cout << "=====è¯·è¾“å…¥æ‚¨æ¥ä¸‹æ¥è¦æ‰§è¡Œçš„æ“ä½œ=====" << endl;
+		cout << "ã€0ã€‘è‡ªåŠ¨æ‰§è¡Œ" << endl;
+		cout << "ã€1ã€‘è½½å…¥å†…å­˜" << endl;
+		cout << "ã€2ã€‘è®¡ç®—å·®å¼‚" << endl;
+		cout << "ã€3ã€‘åˆ†æå·®å¼‚" << endl;
+		cout << "ã€4ã€‘å¯è§†å±•ç¤º" << endl;
+		cout << "ã€5ã€‘é€€å‡ºç¨‹åº" << endl;
 		if (mode == -1 ||( (mode == 1 || mode == 2 || mode == 3 || mode == 4)&&flag_Auto==0))
 		{
 			cin >> mode;
@@ -325,33 +325,33 @@ int main()
 			int time1 = time(NULL);
 			int time2 = 0;
 
-			//½«ÊÓÆµ¼ÓÔØÈëÄÚ´æ
+			//å°†è§†é¢‘åŠ è½½å…¥å†…å­˜
 			while (capture.isOpened() != 0)
 			{
-				//×ÜÖ¡ÊıÒç³ö¾¯¸æ
+				//æ€»å¸§æ•°æº¢å‡ºè­¦å‘Š
 				if (Iterator_i > MAXFRAME)
 				{
-					MessageBox(NULL, TEXT("µ±Ç°Ö¡Êı³¬¹ı10000£¬½«¿ÉÄÜÒı·¢ÖÂÃü´íÎó"), TEXT("¾¯¸æ"), 0);
+					MessageBox(NULL, TEXT("å½“å‰å¸§æ•°è¶…è¿‡10000ï¼Œå°†å¯èƒ½å¼•å‘è‡´å‘½é”™è¯¯"), TEXT("è­¦å‘Š"), 0);
 				}
 
-				//ÅĞ¶ÏÊÓÆµÊÇ·ñ¶ÁÈ¡½áÊø²¢ÔØÈëĞÂÊÓÆµ
+				//åˆ¤æ–­è§†é¢‘æ˜¯å¦è¯»å–ç»“æŸå¹¶è½½å…¥æ–°è§†é¢‘
 				capture >> frame[Iterator_i];
 				if (frame[Iterator_i].empty() != 0)
 				{
 					break;
 				}
 
-				// ĞŞ¸ÄÍ¼Æ¬µÄ³ß´çÎª800*450£¬½µµÍºóÆÚ¼ÆËã¸ºµ£
+				// ä¿®æ”¹å›¾ç‰‡çš„å°ºå¯¸ä¸º800*450ï¼Œé™ä½åæœŸè®¡ç®—è´Ÿæ‹…
 				resize(frame[Iterator_i], frame[Iterator_i], cv::Size(800, 450), cv::INTER_LINEAR);
 
-				//×ª»»¸ñÊ½
-				sprintf(ImageNameString, "%s%d%s", "Output_Image_", Iterator_i+1, ".jpg"); //ÎªÍ¼Æ¬ÃüÃû
+				//è½¬æ¢æ ¼å¼
+				sprintf(ImageNameString, "%s%d%s", "Output_Image_", Iterator_i+1, ".jpg"); //ä¸ºå›¾ç‰‡å‘½å
 				std::string str(ImageNameString);
 
-				//Õ¹Ê¾µ±Ç°Ö¡
+				//å±•ç¤ºå½“å‰å¸§
 				imshow("Output_Image", frame[Iterator_i]);
 
-				// ½«Í¼Æ¬±£´æÔÚÑ¡ÔñµÄÂ·¾¶ÖĞ
+				// å°†å›¾ç‰‡ä¿å­˜åœ¨é€‰æ‹©çš„è·¯å¾„ä¸­
 				cv::imwrite(str, frame[Iterator_i]);
 
 				waitKey(1);
@@ -384,7 +384,7 @@ int main()
 			if (flag_LoadInToMemory == 1)
 			{
 				//
-				//¼ÆËãDiff2
+				//è®¡ç®—Diff2
 				//
 				Output_Data << "==========Diff2==========" << endl;
 				int time1 = time(NULL);
@@ -466,7 +466,7 @@ int main()
 				Output_Log << " [INFO]Compute Diff2 use time " << time2 - time1 << " seconds" << endl;
 				Output_Data << "Compute Diff2 use time " << time2 - time1 << " seconds" << endl;
 				//
-				//¼ÆËãDiff3
+				//è®¡ç®—Diff3
 				//
 				Output_Data << "==========Diff3==========" << endl;
 				int time3 = time(NULL);
@@ -555,9 +555,9 @@ int main()
 			{
 				SystemTime();
 				cout << TimeString;
-				cout << " [INFO]ÄúÉĞÎ´ÔØÈëÄÚ´æ" << endl;
+				cout << " [INFO]æ‚¨å°šæœªè½½å…¥å†…å­˜" << endl;
 				Output_Log << TimeString;
-				Output_Log << " [INFO]ÄúÉĞÎ´ÔØÈëÄÚ´æ" << endl;
+				Output_Log << " [INFO]æ‚¨å°šæœªè½½å…¥å†…å­˜" << endl;
 			}
 		}
 		else if (mode == 3)
@@ -566,8 +566,8 @@ int main()
 			{
 				SystemTime();
 				cout << TimeString;
-				cout << " [INFO]¿ªÊ¼·ÖÎöÊı¾İ" << endl;
-				Output_Data << "==========¿ªÊ¼·ÖÎöÊı¾İ==========" << endl;
+				cout << " [INFO]å¼€å§‹åˆ†ææ•°æ®" << endl;
+				Output_Data << "==========å¼€å§‹åˆ†ææ•°æ®==========" << endl;
 				for (Iterator_i = 0; Iterator_i < num; ++Iterator_i)
 				{
 					if (Iterator_i != 0 && Iterator_i != 1 && Iterator_i != (num - 1) && Iterator_i != (num - 2))
@@ -612,17 +612,17 @@ int main()
 			{
 				SystemTime();
 				cout << TimeString;
-				cout << " [INFO]ÄúÔØÈëÄÚ´æµ«Î´¼ÆËã" << endl;
+				cout << " [INFO]æ‚¨è½½å…¥å†…å­˜ä½†æœªè®¡ç®—" << endl;
 				Output_Log << TimeString;
-				Output_Log << " [INFO]ÄúÔØÈëÄÚ´æµ«Î´¼ÆËã" << endl;
+				Output_Log << " [INFO]æ‚¨è½½å…¥å†…å­˜ä½†æœªè®¡ç®—" << endl;
 			}
 			else if (flag_LoadInToMemory != 1)
 			{
 				SystemTime();
 				cout << TimeString;
-				cout << " [INFO]ÄúÉĞÎ´ÔØÈëÄÚ´æ" << endl;
+				cout << " [INFO]æ‚¨å°šæœªè½½å…¥å†…å­˜" << endl;
 				Output_Log << TimeString;
-				Output_Log << " [INFO]ÄúÉĞÎ´ÔØÈëÄÚ´æ" << endl;
+				Output_Log << " [INFO]æ‚¨å°šæœªè½½å…¥å†…å­˜" << endl;
 			}
 		}
 		else if (mode == 4)
@@ -631,34 +631,34 @@ int main()
 			{
 				SystemTime();
 				cout << TimeString;
-				cout << " [INFO]ÄúÉĞÎ´ÔØÈëÄÚ´æ£¬ÄúÖÁÉÙĞèÒªÔØÈëÄÚ´æ" << endl;
+				cout << " [INFO]æ‚¨å°šæœªè½½å…¥å†…å­˜ï¼Œæ‚¨è‡³å°‘éœ€è¦è½½å…¥å†…å­˜" << endl;
 				Output_Log << TimeString;
-				Output_Log << " [INFO]ÄúÉĞÎ´ÔØÈëÄÚ´æ£¬ÄúÖÁÉÙĞèÒªÔØÈëÄÚ´æ" << endl;
+				Output_Log << " [INFO]æ‚¨å°šæœªè½½å…¥å†…å­˜ï¼Œæ‚¨è‡³å°‘éœ€è¦è½½å…¥å†…å­˜" << endl;
 				continue;
 			}
 			else if (flag_LoadInToMemory == 1 && (flag_CalculateDiff != 1 || flag_AnalyseDiff != 1))
 			{
 				SystemTime();
 				cout << TimeString;
-				cout << " [INFO]ÄúÔØÈëÄÚ´æµ«Î´¼ÆËã²¢·ÖÎö½á¹û£¬½«ÏÔÊ¾Ä¬ÈÏÊ¾·¶ĞòÁĞ" << endl;
+				cout << " [INFO]æ‚¨è½½å…¥å†…å­˜ä½†æœªè®¡ç®—å¹¶åˆ†æç»“æœï¼Œå°†æ˜¾ç¤ºé»˜è®¤ç¤ºèŒƒåºåˆ—" << endl;
 				Output_Log << TimeString;
-				Output_Log << " [INFO]ÄúÔØÈëÄÚ´æµ«Î´¼ÆËã²¢·ÖÎö½á¹û£¬½«ÏÔÊ¾Ä¬ÈÏÊ¾·¶ĞòÁĞ" << endl;
+				Output_Log << " [INFO]æ‚¨è½½å…¥å†…å­˜ä½†æœªè®¡ç®—å¹¶åˆ†æç»“æœï¼Œå°†æ˜¾ç¤ºé»˜è®¤ç¤ºèŒƒåºåˆ—" << endl;
 				flag_EasyXDebug = 1;
 			}
 			else
 			{
 				SystemTime();
 				cout << TimeString;
-				cout << " [INFO]Æô¶¯Easy X" << endl;
+				cout << " [INFO]å¯åŠ¨Easy X" << endl;
 				Output_Log << TimeString;
-				Output_Log << " [INFO]Æô¶¯Easy X" << endl;
+				Output_Log << " [INFO]å¯åŠ¨Easy X" << endl;
 			}
 			initgraph(WINDOW_W, WINDOW_H, SHOWCONSOLE);
 			setfillcolor(DARKGRAY);
 			solidrectangle(0, 0, WINDOW_W, WINDOW_H);
-			TCHAR HELLOWORLD[] = { TEXT("ÒÔÏÂÎª¼ì²âµ½µÄÒÉËÆ¹îÒìÖ¡") };
+			TCHAR HELLOWORLD[] = { TEXT("ä»¥ä¸‹ä¸ºæ£€æµ‹åˆ°çš„ç–‘ä¼¼è¯¡å¼‚å¸§") };
 			setbkmode(TRANSPARENT);
-			settextstyle(50, 0, _T("ºÚÌå"));
+			settextstyle(50, 0, _T("é»‘ä½“"));
 			outtextxy(390,55,HELLOWORLD);
 
 			int ImageWindowEdge = 25;
@@ -670,17 +670,17 @@ int main()
 			int ImageWindowWide = ImageWindowR - ImageWindowL;
 			cout << "ImageWindowWide= " << ImageWindowR - ImageWindowL << endl;
 			cout << "ImageWindowHigh= " << ImageWindowHigh << endl;
-			rectangle(ImageWindowL, ImageWindowU, ImageWindowR, ImageWindowD);//ImageWindowÊÇ×ÜµÄ¿ò¿ò
+			rectangle(ImageWindowL, ImageWindowU, ImageWindowR, ImageWindowD);//ImageWindowæ˜¯æ€»çš„æ¡†æ¡†
 
-			//Magic Number ±¸×¢£º9/16==0.5625
+			//Magic Number å¤‡æ³¨ï¼š9/16==0.5625
 
-			int FrameEdgeX = 5;//Ö¡Ö®¼äºÍÖ¡ÓëImageWindowµÄºáÏò¿íÕ­
-			int FrameEdgeY = (int)(ImageWindowHigh - (((ImageWindowWide - 6 * FrameEdgeX) / 5)*(0.5625))) / 2;//Ö¡ÓëImageWindowµÄ×İÏò¼ä¾à
+			int FrameEdgeX = 5;//å¸§ä¹‹é—´å’Œå¸§ä¸ImageWindowçš„æ¨ªå‘å®½çª„
+			int FrameEdgeY = (int)(ImageWindowHigh - (((ImageWindowWide - 6 * FrameEdgeX) / 5)*(0.5625))) / 2;//å¸§ä¸ImageWindowçš„çºµå‘é—´è·
 			cout << "FrameEdgeX= " << FrameEdgeX << endl;
 			cout << "FrameEdgeY= " << FrameEdgeY << endl;
 
-			int FrameWide = (int)((ImageWindowWide - 6 * FrameEdgeX) / 5);//Ö¡¿í¶È
-			int FrameHigh =(FrameWide*(0.5625));//Ö¡¸ß¶È
+			int FrameWide = (int)((ImageWindowWide - 6 * FrameEdgeX) / 5);//å¸§å®½åº¦
+			int FrameHigh =(FrameWide*(0.5625));//å¸§é«˜åº¦
 			cout << "FrameWide= " << FrameWide << endl;
 			cout << "FrameHigh= " << FrameHigh << endl;
 
@@ -737,10 +737,10 @@ int main()
 			solidrectangle(ButtonSaveL + 1, ButtonU + 1, ButtonSaveR - 1, ButtonD - 1);
 			solidrectangle(ButtonAfterL + 1, ButtonU + 1, ButtonAfterR - 1, ButtonD - 1);
 
-			TCHAR BUTTON_BEFORE[] = { TEXT("ÉÏÒ»¸ö") };
-			TCHAR BUTTON_SAVE[] = { TEXT("±£´æ") };
-			TCHAR BUTTON_AFTER[] = { TEXT("ÏÂÒ»¸ö") };
-			settextstyle(20, 0, _T("ºÚÌå"));
+			TCHAR BUTTON_BEFORE[] = { TEXT("ä¸Šä¸€ä¸ª") };
+			TCHAR BUTTON_SAVE[] = { TEXT("ä¿å­˜") };
+			TCHAR BUTTON_AFTER[] = { TEXT("ä¸‹ä¸€ä¸ª") };
+			settextstyle(20, 0, _T("é»‘ä½“"));
 			outtextxy(ButtonBeforeL + 63, ButtonU + 23, BUTTON_BEFORE);
 			outtextxy(ButtonSaveL + 70, ButtonU + 23, BUTTON_SAVE);
 			outtextxy(ButtonAfterL + 62, ButtonU + 23, BUTTON_AFTER);
@@ -758,28 +758,28 @@ int main()
 					{
 						if (VisualMoeV2.x > ButtonSaveL&&VisualMoeV2.x< ButtonSaveR&&VisualMoeV2.y>ButtonSaveU&&VisualMoeV2.y < ButtonSaveD)
 						{
-							//±£´æ°´Å¥
+							//ä¿å­˜æŒ‰é’®
 							SystemTime();
 							cout << TimeString;
-							cout << " [INFO]±£´æ°´Å¥" << endl;
+							cout << " [INFO]ä¿å­˜æŒ‰é’®" << endl;
 							Output_Log << TimeString;
-							Output_Log << " [INFO]±£´æ°´Å¥" << endl;
+							Output_Log << " [INFO]ä¿å­˜æŒ‰é’®" << endl;
 							TCHAR TempImageName_TCHAR[100];
 							char TempImageName_char[100];
 							time_t now = time(NULL);
 							strftime(TimeString, 100, "%Y%m%d-%H%M%S", localtime(&now));
-							sprintf(TempImageName_char, "%s%s%d%s", TimeString, "-", Target[FrameIterator] + 1, ".jpg"); //ÎªÍ¼Æ¬ÃüÃû
+							sprintf(TempImageName_char, "%s%s%d%s", TimeString, "-", Target[FrameIterator] + 1, ".jpg"); //ä¸ºå›¾ç‰‡å‘½å
 							CharToTchar(TempImageName_char, TempImageName_TCHAR);
 							saveimage(TempImageName_TCHAR);
 						}
 						else if (VisualMoeV2.x > ButtonBeforeL&&VisualMoeV2.x< ButtonBeforeR&&VisualMoeV2.y>ButtonBeforeU&&VisualMoeV2.y < ButtonBeforeD)
 						{
-							//ÉÏÒ»¸ö°´Å¥
+							//ä¸Šä¸€ä¸ªæŒ‰é’®
 							SystemTime();
 							cout << TimeString;
-							cout << " [INFO]ÉÏÒ»¸ö°´Å¥" << endl;
+							cout << " [INFO]ä¸Šä¸€ä¸ªæŒ‰é’®" << endl;
 							Output_Log << TimeString;
-							Output_Log << " [INFO]ÉÏÒ»¸ö°´Å¥" << endl;
+							Output_Log << " [INFO]ä¸Šä¸€ä¸ªæŒ‰é’®" << endl;
 							if (FrameIterator - 1 >= 0)
 							{
 								FrameIterator -= 1;
@@ -789,20 +789,20 @@ int main()
 							{
 								SystemTime();
 								cout << TimeString;
-								cout << " [INFO]ÒÑ¾­ÊÇµÚÒ»¸öÁË" << endl;
+								cout << " [INFO]å·²ç»æ˜¯ç¬¬ä¸€ä¸ªäº†" << endl;
 								Output_Log << TimeString;
-								Output_Log << " [INFO]ÒÑ¾­ÊÇµÚÒ»¸öÁË" << endl;
+								Output_Log << " [INFO]å·²ç»æ˜¯ç¬¬ä¸€ä¸ªäº†" << endl;
 							}
 						}
 						else if (VisualMoeV2.x > ButtonAfterL&&VisualMoeV2.x< ButtonAfterR&&VisualMoeV2.y>ButtonAfterU&&VisualMoeV2.y < ButtonAfterD)
 						{
-							//ÏÂÒ»¸ö°´Å¥
+							//ä¸‹ä¸€ä¸ªæŒ‰é’®
 							SystemTime();
 							cout << TimeString;
-							cout << " [INFO]ÏÂÒ»¸ö°´Å¥" << endl;
+							cout << " [INFO]ä¸‹ä¸€ä¸ªæŒ‰é’®" << endl;
 							Output_Log << TimeString;
-							Output_Log << " [INFO]ÏÂÒ»¸ö°´Å¥" << endl;
-							//ÏÂÒ»¸ö
+							Output_Log << " [INFO]ä¸‹ä¸€ä¸ªæŒ‰é’®" << endl;
+							//ä¸‹ä¸€ä¸ª
 							if (Target[FrameIterator+1] != -1)
 							{
 								FrameIterator += 1;
@@ -812,9 +812,9 @@ int main()
 							{
 								SystemTime();
 								cout << TimeString;
-								cout << " [INFO]ÒÑ¾­ÊÇ×îºóÒ»¸öÁË" << endl;
+								cout << " [INFO]å·²ç»æ˜¯æœ€åä¸€ä¸ªäº†" << endl;
 								Output_Log << TimeString;
-								Output_Log << " [INFO]ÒÑ¾­ÊÇ×îºóÒ»¸öÁË" << endl;
+								Output_Log << " [INFO]å·²ç»æ˜¯æœ€åä¸€ä¸ªäº†" << endl;
 							}
 						}
 					}
